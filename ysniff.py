@@ -4,11 +4,13 @@ import fileinput
 
 mac_index = 12
 time_index = 1
+start_t_us = 0
 MAC_LEN = 17
-SAMPLE_PERIOD = 300 # Seconds. 5 minutes.
+SAMPLE_PERIOD = 30 # Seconds. 5 minutes.
+PUSH_TO_AWS_PERIOD = 3600 # Seconds. One hour.
 maclist = []
 buffer = {}
-# TODO: add maclists to buffer every sample period.
+
 # TODO: Upload buffer to AWS every collection period.
 for line in fileinput.input():
     splitline = line.split(" ")
@@ -16,8 +18,17 @@ for line in fileinput.input():
         mac = splitline[mac_index]
         if mac == "DA:Broadcast":
             mac = splitline[mac_index+1]
-        ts = splitline[time_index]
+        ts = int(splitline[time_index][:-2])
         mac = mac[len(mac)-MAC_LEN:]
         if mac not in maclist:
             maclist.append(mac)
+
+        if start_t_us is 0:
+            start_t_us = ts
+        elif ts - start_t_us > (SAMPLE_PERIOD * 1000000):
+            buffer[start_t_us] = maclist
+            maclist = []
+            start_t_us = 0
         print ts,mac
+
+#print buffer, len(buffer)
