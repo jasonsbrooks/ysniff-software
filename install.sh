@@ -7,6 +7,8 @@ cd aircrack-ng-1.2-beta1
 make
 sudo make install
 
+# TODO: Install boto
+
 sudo cp run.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/run.sh
 sudo update-rc.d run.sh defaults
