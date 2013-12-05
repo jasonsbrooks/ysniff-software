@@ -1,15 +1,20 @@
 #!/usr/bin/env python
 
+import boto.rds
 import fileinput
+import sys
 
 mac_index = 12
 time_index = 1
 start_t_us = 0
 MAC_LEN = 17
-SAMPLE_PERIOD = 30 # Seconds. 5 minutes.
+SAMPLE_PERIOD = 30 # Seconds.
 PUSH_TO_AWS_PERIOD = 3600 # Seconds. One hour.
 maclist = []
 buffer = {}
+
+conn = boto.rds.connect_to_region("us-west-2",aws_access_key_id=sys.argv[1],aws_secret_key_id=sys.argv[2])
+    aws_secret_access_key='<aws secret key>')
 
 # TODO: Upload buffer to AWS every collection period.
 for line in fileinput.input():
