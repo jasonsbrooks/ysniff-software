@@ -18,6 +18,7 @@ buffer = {}
 
 # Function to re-associate with YaleGuest for internet connection
 def reconnect():
+    print "Reconnecting..."
     call(["sudo","iwconfig","wlan0","essid","YaleGuest"])
     call(["sleep","5"])
     call(["curl", "--data", "\"email=YaleGuest@yale.edu&cmd=cmd\"", "http://10.160.252.249/auth/index.html/u"])
