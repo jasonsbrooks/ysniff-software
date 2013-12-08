@@ -30,7 +30,6 @@ for line in fileinput.input():
     splitline = line.split(" ")
     if mac_index < len(splitline):
         mac = splitline[mac_index]
-        mac = re.search(
         if mac == "DA:Broadcast":
             mac = splitline[mac_index+1]
         ts = int(splitline[time_index][:-2])
