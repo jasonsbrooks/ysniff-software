@@ -4,6 +4,7 @@ import boto.rds
 import fileinput
 import sys
 import os
+import re
 from subprocess import call
 
 mac_index = 12
@@ -43,9 +44,12 @@ for line in fileinput.input():
     splitline = line.split(" ")
     if mac_index < len(splitline):
         mac = splitline[mac_index]
+        mac = re.search(
         if mac == "DA:Broadcast":
             mac = splitline[mac_index+1]
         ts = int(splitline[time_index][:-2])
+
+        # TODO USE REGEX TO FIND MAC
         mac = mac[len(mac)-MAC_LEN:]
 
         # Make list of timestamps for each mac
