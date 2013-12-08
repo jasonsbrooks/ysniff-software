@@ -27,7 +27,7 @@ try:
     conn=boto.connect_sdb()
     print "Getting SimpleDB domain"
     domain=conn.get_domain('tmp_ysniff')
-except Error as e:
+except Exception as e:
     print e
     print "Attempting to connect to YaleGuest..."
     reconnect()
