@@ -58,10 +58,12 @@ for line in fileinput.input():
                     print "Trying to get item:"
                     print key
                     item = domain.get_item(key)
+                    print "Item is: ", item
                     if item is None:
                         key = 'WAT' if key is None else key
                         item = domain.new_item(key)
                 except Exception as e:
+                    print "Could not get item!"
                     print e
                 for timestamp in buffer[key]:
                     print "Timestamp:", timestamp
