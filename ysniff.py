@@ -60,6 +60,7 @@ for line in fileinput.input():
                     print key
                     item = domain.get_item(key)
                     if item is None:
+                        key = 'WAT' if key is None else key
                         item = domain.new_item(key)
                 except Exception as e:
                     print e
