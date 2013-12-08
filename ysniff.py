@@ -69,10 +69,14 @@ for line in fileinput.input():
                     print "Trying to get item:"
                     print key
                     item = domain.get_item(key)
+                    if item is None:
+                        item = domain.new_item(key)
                 except Exception as e:
                     print e
                     reconnect()
                     item = domain.get_item(key)
+                    if item is None:
+                        item = domain.new_item(key)
                 for timestamp in buffer[key]:
                     print "Timestamp:", timestamp
                     item[timestamp] = os.environ['PI_LOCATION']
