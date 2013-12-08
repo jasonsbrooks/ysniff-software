@@ -8,12 +8,7 @@ cd aircrack-ng-1.2-beta1
 make
 sudo make install
 
-wget http://www.tcpdump.org/release/tcpdump-4.5.1.tar.gz
-tar xzvf tcpdump-4.5.1.tar.gz
-cd tcpdump-4.5.1
-./configure
-make
-sudo make install
+sudo apt-get install tcpdump
 
 git clone git://github.com/boto/boto.git
 cd boto
