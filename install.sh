@@ -8,7 +8,16 @@ cd aircrack-ng-1.2-beta1
 make
 sudo make install
 
-# TODO: Install boto
+wget http://www.tcpdump.org/release/tcpdump-4.5.1.tar.gz
+tar xzvf tcpdump-4.5.1.tar.gz
+cd tcpdump-4.5.1
+./configure
+make
+sudo make install
+
+git clone git://github.com/boto/boto.git
+cd boto
+python setup.py install
 
 sudo cp run.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/run.sh
