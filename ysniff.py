@@ -23,11 +23,15 @@ def reconnect():
     call(["curl", "--data", "\"email=YaleGuest@yale.edu&cmd=cmd\"", "http://10.160.252.249/auth/index.html/u"])
 
 try:
+    print "Connecting to boto"
     conn=boto.connect_sdb()
+    print "Getting SimpleDB domain"
     domain=conn.get_domain('tmp_ysniff')
 except:
     reconnect()
+    print "Connecting to boto"
     conn=boto.connect_sdb()
+    print "Getting SimpleDB domain"
     domain=conn.get_domain('tmp_ysniff')
 
 
