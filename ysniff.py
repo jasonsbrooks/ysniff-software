@@ -27,6 +27,8 @@ try:
     conn=boto.connect_sdb()
 except:
     reconnect()
+    domain=conn.get_domain('tmp_ysniff')
+    conn=boto.connect_sdb()
 
 
 # TODO: Upload buffer to AWS every collection period.
@@ -60,6 +62,8 @@ for line in fileinput.input():
                     item = domain.get_item(key)
                 except:
                     reconnect()
+                    item = domain.get_item(key)
+
                 for timestamp in buffer[key]:
                     item[timestamp] = os.environ['PI_LOCATION']
 
@@ -67,6 +71,7 @@ for line in fileinput.input():
                     item.save()
                 except:
                     reconnect()
+                    item.save()
 
             buffer = {}
             start_t_us = ts
