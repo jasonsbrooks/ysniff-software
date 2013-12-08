@@ -17,13 +17,6 @@ PUSH_TO_AWS_PERIOD = 120 # Seconds.
 maclist = set()
 buffer = {}
 
-# Function to re-associate with YaleGuest for internet connection
-def reconnect():
-    print "Reconnecting..."
-    call(["sudo","iwconfig","wlan0","essid","YaleGuest"])
-    call(["sleep","5"])
-    call(["curl", "--data", "\"email=YaleGuest@yale.edu&cmd=cmd\"", "http://10.160.252.249/auth/index.html/u"])
-
 try:
     print "Connecting to boto"
     conn=boto.connect_sdb()
@@ -31,13 +24,6 @@ try:
     domain=conn.get_domain('tmp_ysniff')
 except Exception as e:
     print e
-    print "Attempting to connect to YaleGuest..."
-    reconnect()
-    print "Connecting to boto"
-    conn=boto.connect_sdb()
-    print "Getting SimpleDB domain"
-    domain=conn.get_domain('tmp_ysniff')
-
 
 print "Reading from tcpdump"
 for line in fileinput.input():
@@ -77,10 +63,6 @@ for line in fileinput.input():
                         item = domain.new_item(key)
                 except Exception as e:
                     print e
-                    reconnect()
-                    item = domain.get_item(key)
-                    if item is None:
-                        item = domain.new_item(key)
                 for timestamp in buffer[key]:
                     print "Timestamp:", timestamp
                     item[timestamp] = os.environ['PI_LOCATION']
@@ -90,8 +72,6 @@ for line in fileinput.input():
                     item.save()
                 except Exception as e:
                     print e
-                    reconnect()
-                    item.save()
 
             buffer = {}
             start_t_us = ts
