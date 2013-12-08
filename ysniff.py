@@ -4,6 +4,7 @@ import boto.rds
 import fileinput
 import sys
 import os
+from subprocess import call
 
 mac_index = 12
 time_index = 1
@@ -15,8 +16,12 @@ PUSH_TO_AWS_PERIOD = 300 # Seconds.
 maclist = set()
 buffer = {}
 
-conn=boto.connect_sdb()
-domain=conn.get_domain('tmp_ysniff')
+try:
+    domain=conn.get_domain('tmp_ysniff')
+    conn=boto.connect_sdb()
+except:
+    reconnect()
+
 
 # TODO: Upload buffer to AWS every collection period.
 for line in fileinput.input():
@@ -45,13 +50,24 @@ for line in fileinput.input():
             start_u_us = ts
         elif ts - start_u_us > (PUSH_TO_AWS_PERIOD  * 1000000):
             for key in buffer:
-                item = domain.get_item(key)
+                try:
+                    item = domain.get_item(key)
+                except:
+                    reconnect()
                 for timestamp in buffer[key]:
                     item[timestamp] = os.environ['PI_LOCATION']
-                item.save()
+
+                try:
+                    item.save()
+                except:
+                    reconnect()
 
             buffer = {}
             start_t_us = ts
 
 #print buffer, len(buffer)
 
+def reconnect():
+    call(["sudo","iwconfig","wlan0","essid","YaleGuest"])
+    call(["sleep","5"])
+    call(["curl", "--data", "\"email=YaleGuest@yale.edu&cmd=cmd\"", "http://10.160.252.249/auth/index.html/u"])
