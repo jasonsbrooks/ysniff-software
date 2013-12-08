@@ -65,17 +65,20 @@ for line in fileinput.input():
         elif ts - start_u_us > (PUSH_TO_AWS_PERIOD  * 1000000):
             for key in buffer:
                 try:
+                    print "Trying to get item"
                     item = domain.get_item(key)
-                except:
+                except Exception as e:
+                    print e
                     reconnect()
                     item = domain.get_item(key)
-
                 for timestamp in buffer[key]:
                     item[timestamp] = os.environ['PI_LOCATION']
 
                 try:
+                    print "Writing data to SimpleDB"
                     item.save()
-                except:
+                except Exception as e:
+                    print e
                     reconnect()
                     item.save()
 
