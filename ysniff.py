@@ -27,7 +27,9 @@ try:
     conn=boto.connect_sdb()
     print "Getting SimpleDB domain"
     domain=conn.get_domain('tmp_ysniff')
-except:
+except e:
+    print e
+    print "Attempting to connect to YaleGuest..."
     reconnect()
     print "Connecting to boto"
     conn=boto.connect_sdb()
@@ -35,7 +37,7 @@ except:
     domain=conn.get_domain('tmp_ysniff')
 
 
-# TODO: Upload buffer to AWS every collection period.
+print "Reading from tcpdump"
 for line in fileinput.input():
     splitline = line.split(" ")
     if mac_index < len(splitline):
