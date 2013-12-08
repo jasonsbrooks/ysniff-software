@@ -23,10 +23,12 @@ def reconnect():
     call(["curl", "--data", "\"email=YaleGuest@yale.edu&cmd=cmd\"", "http://10.160.252.249/auth/index.html/u"])
 
 try:
-    domain=conn.get_domain('tmp_ysniff')
     conn=boto.connect_sdb()
+    domain=conn.get_domain('tmp_ysniff')
 except:
     reconnect()
+    conn=boto.connect_sdb()
+    domain=conn.get_domain('tmp_ysniff')
 
 
 # TODO: Upload buffer to AWS every collection period.
@@ -60,6 +62,8 @@ for line in fileinput.input():
                     item = domain.get_item(key)
                 except:
                     reconnect()
+                    item = domain.get_item(key)
+
                 for timestamp in buffer[key]:
                     item[timestamp] = os.environ['PI_LOCATION']
 
@@ -67,6 +71,7 @@ for line in fileinput.input():
                     item.save()
                 except:
                     reconnect()
+                    item.save()
 
             buffer = {}
             start_t_us = ts
