@@ -74,6 +74,7 @@ for line in fileinput.input():
                     reconnect()
                     item = domain.get_item(key)
                 for timestamp in buffer[key]:
+                    print "Timestamp:", timestamp
                     item[timestamp] = os.environ['PI_LOCATION']
 
                 try:
