@@ -10,7 +10,7 @@ sudo make install
 
 sudo apt-get install tcpdump
 
-git clone git://github.com/boto/boto.git
+git clone https://github.com/boto/boto.git
 cd boto
 python setup.py install
 
