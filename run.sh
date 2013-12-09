@@ -2,6 +2,9 @@
 
 # TODO: Click the I Agree button on YaleGuest
 
+cd /home/pi/ysniff-software
+git pull # Fetch updates
+
 source /home/pi/.bashrc
 echo "Turning on wlan0"
 sudo ifconfig wlan0 up
