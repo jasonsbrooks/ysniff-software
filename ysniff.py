@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import boto.rds
+import boto.dynamodb
 import md5
 import fileinput
 import sys
@@ -29,8 +29,8 @@ pi_location= config.get('default','PI_LOCATION')
 
 try:
     print "Connecting to boto"
-    conn=boto.connect_sdb(access_key,secret_key)
-    print "Getting SimpleDB domain"
+    conn=boto.dynamodb.connect_to_region('us-east-1',access_key,secret_key)
+    print "Getting DynamoDB domain"
     domain=conn.get_domain('tmp_ysniff')
 except Exception as e:
     print e
