@@ -59,7 +59,6 @@ for line in fileinput.input():
                     key = 'WAT' if key is None else key
                     print key
                     item = domain.get_item(key)
-                    print "Item is: ", item
                     if item is None:
                         print "item was None, key is: ", key
                         item = domain.new_item(key)
