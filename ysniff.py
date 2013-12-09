@@ -61,7 +61,9 @@ for line in fileinput.input():
                     print "Item is: ", item
                     if item is None:
                         key = 'WAT' if key is None else key
+                        print "item was None, key is now: ", key
                         item = domain.new_item(key)
+                        print "new item is now: ", item
                 except Exception as e:
                     print "Could not get item!"
                     print e
