@@ -39,9 +39,11 @@ except Exception as e:
 
 print "Reading from tcpdump"
 for line in fileinput.input():
-    mac = re.search("((?:[^\s]{2}[-:]?){6})", line).group(0)
-    splitline = line.split(" ")
-    if mac_index < len(splitline):
+    m = re.search("((?:[^\s]{2}[-:]?){6})", line)
+    if m not is None
+      mac = m.group(0)
+      splitline = line.split(" ")
+      if mac_index < len(splitline):
         ts_raw = time.strftime("%Y:%m:%d:")+str(splitline[time_index][:-7])
         ts_list = ts_raw.split(':')
         ts_list = map(int, ts_list)
