@@ -68,11 +68,11 @@ for line in fileinput.input():
                     print "Trying to get item:"
                     key = 'WAT' if key is None else key
                     print key
-                    item = table.get_item(md5.new().update(key).hexadecimal()) # Encrypt MAC with md5
-                    if item is None:
-                        print "item was None, key is: ", key
-                        item = table.new_item(key)
-                        print "new item is now: ", item
+                    item = table.get_item(key) # Encrypt MAC with md5
+                except boto.dyamodb.exceptions.DynamoDBKeyNotFoundError:
+                    print "item was None, key is: ", key
+                    item = table.new_item(key) # Encrypt MAC with md5
+                    print "new item is now: ", item
                 except Exception as e:
                     print "Could not get item!"
                     print e
@@ -82,7 +82,7 @@ for line in fileinput.input():
 
                 try:
                     print "Writing data to SimpleDB"
-                    item.save()
+                    item.put()
                 except Exception as e:
                     print e
 
