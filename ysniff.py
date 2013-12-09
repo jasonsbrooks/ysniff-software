@@ -33,7 +33,7 @@ try:
     print "Connecting to boto"
     conn=boto.dynamodb.connect_to_region('us-east-1',aws_access_key_id=access_key,aws_secret_access_key=secret_key)
     print "Getting DynamoDB table"
-    table=conn.get_table('tmp_ysniff')
+    table=conn.get_table('dev-ysniff')
 except Exception as e:
     print e
 
