@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import boto.rds
+import boto.dynamodb
 import md5
 import fileinput
 import sys
@@ -29,9 +29,9 @@ pi_location= config.get('default','PI_LOCATION')
 
 try:
     print "Connecting to boto"
-    conn=boto.connect_sdb(access_key,secret_key)
-    print "Getting SimpleDB domain"
-    domain=conn.get_domain('tmp_ysniff')
+    conn=boto.dynamodb.connect_to_region('us-east-1',access_key,secret_key)
+    print "Getting DynamoDB table"
+    table=conn.get_table('tmp_ysniff')
 except Exception as e:
     print e
 
@@ -68,10 +68,10 @@ for line in fileinput.input():
                     print "Trying to get item:"
                     key = 'WAT' if key is None else key
                     print key
-                    item = domain.get_item(md5.new().update(key).hexadecimal()) # Encrypt MAC with md5
+                    item = table.get_item(md5.new().update(key).hexadecimal()) # Encrypt MAC with md5
                     if item is None:
                         print "item was None, key is: ", key
-                        item = domain.new_item(key)
+                        item = table.new_item(key)
                         print "new item is now: ", item
                 except Exception as e:
                     print "Could not get item!"
