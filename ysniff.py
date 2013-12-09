@@ -8,7 +8,7 @@ import ConfigParser
 from subprocess import call
 
 mac_index = 12
-time_index = 1
+time_index = 0
 start_t_us = 0
 start_u_us = 0
 MAC_LEN = 17
@@ -39,7 +39,7 @@ for line in fileinput.input():
         mac = splitline[mac_index]
         if mac == "DA:Broadcast":
             mac = splitline[mac_index+1]
-        ts = int(splitline[time_index][:-2])
+        ts = int(splitline[time_index][:-7])
 
         # TODO USE REGEX TO FIND MAC
         mac = mac[len(mac)-MAC_LEN:]
