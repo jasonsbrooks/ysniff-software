@@ -36,10 +36,9 @@ try:
     table=conn.get_table('dev-ysniff')
 except Exception as e:
     print e
-
 print "Reading from tcpdump"
 for line in fileinput.input():
-    m = re.search("((?:[a-z0-9]{2}[-:]){5}a-z0-9]{2})", line)
+    m = re.search("((?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2})", line)
     if m is not None:
       mac = m.group(0)
       splitline = line.split(" ")
@@ -66,6 +65,7 @@ for line in fileinput.input():
         if start_u_us is 0:
             start_u_us = ts
         elif ts - start_u_us > (PUSH_TO_AWS_PERIOD):
+            print "This is the buffer: ", buffer
             for key in buffer:
                 try:
                     print "Trying to get item:"
