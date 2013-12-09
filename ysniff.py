@@ -56,12 +56,12 @@ for line in fileinput.input():
             for key in buffer:
                 try:
                     print "Trying to get item:"
+                    key = 'WAT' if key is None else key
                     print key
                     item = domain.get_item(key)
                     print "Item is: ", item
                     if item is None:
-                        key = 'WAT' if key is None else key
-                        print "item was None, key is now: ", key
+                        print "item was None, key is: ", key
                         item = domain.new_item(key)
                         print "new item is now: ", item
                 except Exception as e:
