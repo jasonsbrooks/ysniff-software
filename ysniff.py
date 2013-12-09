@@ -62,13 +62,13 @@ for line in fileinput.input():
             buffer[mac].append(start_t_us)
 
         # Update start_t_us every SAMPLE_PERIOD
-        if start_t_us is 0 or ts - start_t_us > (SAMPLE_PERIOD * 1000000):
+        if start_t_us is 0 or ts - start_t_us > (SAMPLE_PERIOD):
             start_t_us = ts
 
         # upload buffer to AWS every PUSH_TO_AWS_PERIOD
         if start_u_us is 0:
             start_u_us = ts
-        elif ts - start_u_us > (PUSH_TO_AWS_PERIOD  * 1000000):
+        elif ts - start_u_us > (PUSH_TO_AWS_PERIOD):
             for key in buffer:
                 try:
                     print "Trying to get item:"
