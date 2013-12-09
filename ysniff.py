@@ -39,19 +39,16 @@ except Exception as e:
 
 print "Reading from tcpdump"
 for line in fileinput.input():
-    splitline = line.split(" ")
-    if mac_index < len(splitline):
-        mac = splitline[mac_index]
-        if mac == "DA:Broadcast":
-            mac = splitline[mac_index+1]
+    m = re.search("((?:[^\s]{2}[-:]?){6})", line)
+    if m is not None:
+      mac = m.group(0)
+      splitline = line.split(" ")
+      if mac_index < len(splitline):
         ts_raw = time.strftime("%Y:%m:%d:")+str(splitline[time_index][:-7])
         ts_list = ts_raw.split(':')
         ts_list = map(int, ts_list)
         ts_dt = datetime.datetime(*ts_list)
         ts = time.mktime(ts_dt.timetuple())
-
-        # TODO USE REGEX TO FIND MAC
-        mac = mac[len(mac)-MAC_LEN:]
 
         # Make list of timestamps for each mac
         if mac not in buffer:
