@@ -40,7 +40,7 @@ except Exception as e:
 print "Reading from tcpdump"
 for line in fileinput.input():
     m = re.search("((?:[^\s]{2}[-:]?){6})", line)
-    if m not is None
+    if m is not None:
       mac = m.group(0)
       splitline = line.split(" ")
       if mac_index < len(splitline):
