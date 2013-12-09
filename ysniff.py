@@ -15,8 +15,8 @@ time_index = 0
 start_t_us = 0
 start_u_us = 0
 MAC_LEN = 17
-SAMPLE_PERIOD = 30 # Seconds.
-PUSH_TO_AWS_PERIOD = 120 # Seconds.
+SAMPLE_PERIOD = 60 # Seconds.
+PUSH_TO_AWS_PERIOD = 5*60 # Seconds.
 maclist = set()
 buffer = {}
 
