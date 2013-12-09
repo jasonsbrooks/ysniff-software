@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import boto.rds
+import md5
 import fileinput
 import sys
 import re
@@ -16,6 +17,8 @@ SAMPLE_PERIOD = 30 # Seconds.
 PUSH_TO_AWS_PERIOD = 120 # Seconds.
 maclist = set()
 buffer = {}
+
+md = md5.new()
 
 # Get configuration data
 config = ConfigParser.RawConfigParser()
@@ -65,7 +68,7 @@ for line in fileinput.input():
                     print "Trying to get item:"
                     key = 'WAT' if key is None else key
                     print key
-                    item = domain.get_item(key)
+                    item = domain.get_item(md5.new().update(key).hexadecimal()) # Encrypt MAC with md5
                     if item is None:
                         print "item was None, key is: ", key
                         item = domain.new_item(key)
