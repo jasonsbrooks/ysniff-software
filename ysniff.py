@@ -72,10 +72,10 @@ for line in fileinput.input():
             for key in buffer:
                 try:
                     print "Trying to get item:"
-                    key = 'WAT' if key is None else key
+                    key = 'NULL' if key is None else key
                     print key
                     item = table.get_item(key) # Encrypt MAC with md5
-                except boto.dyamodb.exceptions.DynamoDBKeyNotFoundError:
+                except boto.dynamodb.exceptions.DynamoDBKeyNotFoundError:
                     print "item was None, key is: ", key
                     item = table.new_item(key) # Encrypt MAC with md5
                     print "new item is now: ", item
