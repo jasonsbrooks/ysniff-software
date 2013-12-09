@@ -5,6 +5,8 @@ import md5
 import fileinput
 import sys
 import re
+import datetime
+import time
 import ConfigParser
 from subprocess import call
 
@@ -42,7 +44,11 @@ for line in fileinput.input():
         mac = splitline[mac_index]
         if mac == "DA:Broadcast":
             mac = splitline[mac_index+1]
-        ts = int(splitline[time_index][:-7])
+        ts_raw = time.strftime("%Y:%m:%d:")+str(splitline[time_index][:-7])
+        ts_list = ts_raw.split(':')
+        ts_list = map(int, ts_list)
+        ts_dt = datetime.datetime(*ts_list)
+        ts = time.mktime(ts_dt.timetuple())
 
         # TODO USE REGEX TO FIND MAC
         mac = mac[len(mac)-MAC_LEN:]
