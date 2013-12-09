@@ -31,7 +31,7 @@ pi_location= config.get('default','PI_LOCATION')
 
 try:
     print "Connecting to boto"
-    conn=boto.dynamodb.connect_to_region('us-east-1',access_key,secret_key)
+    conn=boto.dynamodb.connect_dyanmodb(access_key,secret_key)
     print "Getting DynamoDB table"
     table=conn.get_table('tmp_ysniff')
 except Exception as e:
