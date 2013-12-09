@@ -3,8 +3,8 @@
 import boto.rds
 import fileinput
 import sys
-import os
 import re
+import ConfigParser
 from subprocess import call
 
 mac_index = 12
@@ -17,9 +17,16 @@ PUSH_TO_AWS_PERIOD = 120 # Seconds.
 maclist = set()
 buffer = {}
 
+# Get configuration data
+config = ConfigParser.RawConfigParser()
+config.read('/etc/ysniff.cfg')
+access_key = config.get('default','AWS_ACCESS_KEY_ID')
+secret_key = config.get('default','AWS_SECRET_ACCESS_KEY')
+pi_location= config.get('default','PI_LOCATION')
+
 try:
     print "Connecting to boto"
-    conn=boto.connect_sdb()
+    conn=boto.connect_sdb(access_key,secret_key)
     print "Getting SimpleDB domain"
     domain=conn.get_domain('tmp_ysniff')
 except Exception as e:
@@ -68,7 +75,7 @@ for line in fileinput.input():
                     print e
                 for timestamp in buffer[key]:
                     print "Timestamp:", timestamp
-                    item[timestamp] = os.environ['PI_LOCATION']
+                    item[timestamp] = pi_location
 
                 try:
                     print "Writing data to SimpleDB"

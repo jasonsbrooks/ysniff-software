@@ -22,4 +22,4 @@ read -p "Enter your AWS Access Key: " access_key
 read -p "Enter your AWS Secret Access Key: " secret_key
 read -p "Enter your Pi Location: " location
 
-echo -e "export AWS_ACCESS_KEY_ID=$access_key\nexport AWS_SECRET_ACCESS_KEY=$secret_key\nexport PI_LOCATION=$location\n" >> /home/pi/.bashrc
+sudo echo -e "[default]\n AWS_ACCESS_KEY_ID=$access_key\nAWS_SECRET_ACCESS_KEY=$secret_key\nPI_LOCATION=$location\n" >> /etc/ysniff.cfg
