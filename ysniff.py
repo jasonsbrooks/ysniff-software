@@ -42,7 +42,7 @@ except Exception as e:
     print e
 
 print "Phoning home"
-ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
+# ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
 cur_time = calendar.timegm(time.gmtime())
 #push pi_location, ip_addr, ts_now
 #table.update_item(location) -> give it dictionary of attributes
