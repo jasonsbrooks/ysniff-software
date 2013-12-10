@@ -29,7 +29,7 @@ config.read('/etc/ysniff.cfg')
 access_key = config.get('default','AWS_ACCESS_KEY_ID')
 secret_key = config.get('default','AWS_SECRET_ACCESS_KEY')
 pi_location= config.get('default','PI_LOCATION')
-table_name = 'dev3-ysniff' # TODO: Use cfg file to get table name
+table_name = 'prod-ysniff' # TODO: Use cfg file to get table name
 
 try:
     print "Connecting to boto"
@@ -37,7 +37,7 @@ try:
     print "Getting Mac DynamoDB table"
     table=conn.get_table(table_name)
     print "Getting IP DynamoDB table"
-    ip_table=conn.get_table('dev-ysniff-ips')
+    ip_table=conn.get_table('prod-ysniff-ips')
 except Exception as e:
     print e
 
