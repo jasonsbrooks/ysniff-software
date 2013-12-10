@@ -118,6 +118,7 @@ for line in fileinput.input():
             cur_time = calendar.timegm(time.gmtime())
             item = ip_table.get_item(pi_location)
             item.put_attribute('Last Push', cur_time)
+            conn.update_item(item)
             buffer = {}
             start_t_us = ts
 
