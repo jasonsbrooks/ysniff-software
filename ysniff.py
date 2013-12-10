@@ -36,6 +36,8 @@ try:
     table=conn.get_table('dev-ysniff')
 except Exception as e:
     print e
+
+print "Phoning home"
 print "Reading from tcpdump"
 for line in fileinput.input():
     m = re.search("((?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2})", line)
