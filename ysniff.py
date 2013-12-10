@@ -42,10 +42,28 @@ except Exception as e:
     print e
 
 print "Phoning home"
-# ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
+ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=subprocess.PIPE).communicate()[0][:-1]
 cur_time = calendar.timegm(time.gmtime())
 #push pi_location, ip_addr, ts_now
 #table.update_item(location) -> give it dictionary of attributes
+try:
+    item = table.get_item(pi_location)
+except boto.dynamodb.exceptions.DynamoDBKeyNotFoundError:
+    item = table.new_item(pi_location)
+    print "new item is now: ", item
+except Exception as e:
+    print "Could not get item!"
+    print e
+item.put_attribute('IP Address', ip_addr)
+item.put_attribute('Last Push', cur_time)
+try:
+    print "Writing data to SimpleDB"
+    conn.update_item(item)
+except Exception as e:
+    print e
+
+
+
 
 print "Reading from tcpdump"
 for line in fileinput.input():
