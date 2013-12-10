@@ -28,6 +28,7 @@ config.read('/etc/ysniff.cfg')
 access_key = config.get('default','AWS_ACCESS_KEY_ID')
 secret_key = config.get('default','AWS_SECRET_ACCESS_KEY')
 pi_location= config.get('default','PI_LOCATION')
+table_name = 'dev-ysniff' # TODO: Use cfg file to get table name
 
 try:
     print "Connecting to boto"
@@ -85,11 +86,10 @@ for line in fileinput.input():
                     print e
                 for timestamp in buffer[key]:
                     print "Timestamp:", timestamp
-                    item[timestamp] = pi_location
-
+                    item.put_attribute(timestamp,pi_location)
                 try:
                     print "Writing data to SimpleDB"
-                    item.put()
+                    con.update_item(item)
                 except Exception as e:
                     print e
 
