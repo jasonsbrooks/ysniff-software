@@ -39,12 +39,13 @@ except Exception as e:
     print e
 
 print "Phoning home"
-ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
+# ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
 print "Reading from tcpdump"
 for line in fileinput.input():
-    m = re.search("((?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2})", line)
-    if m is not None:
-      mac = m.group(0)
+    isbroadcast = re.search("Broadcast", line);
+    m = re.search("(?:SA|DA)[:-]((?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2})", line)
+    if m is not None and isbroadcast is not None:
+      mac = m.group(1)
       splitline = line.split(" ")
       if mac_index < len(splitline):
         ts_raw = time.strftime("%Y:%m:%d:")+str(splitline[time_index][:-7])
