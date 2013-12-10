@@ -7,8 +7,8 @@ git pull # Fetch updates
 
 export LC_ALL=C
 
-export eth_ip = $(ifconfig | grep inet | head -1 | cut -c21-34)
-export time = $(date +%s)
+eth_ip = $(ifconfig | grep inet | head -1 | cut -c21-34)
+time = $(date +%s)
 
 export /home/pi/.bashrc
 /home/pi/ysniff-software/tools/simpledb put dev-pi-locations $PI_LOCATION IP=$eth_ip LAST_PUSH=$time
