@@ -1,10 +1,9 @@
 import boto.dynamodb
 
 dynamoconn = boto.dynamodb.connect_to_region('us-east-1')
-sdbconn = boto.connect_sdb()
 
 table_schema_macs = dynamoconn.create_schema(hash_key_name='MAC',hash_key_proto_value=str)
-
+table_schema_ips = dynamoconn.create_schema(hash_key_name='LOCATION',hash_key_proto_value=str)
 #dynamoconn.create_table(name='dev-ysniff',schema=table_schema,read_units=5,write_units=40)
+dynamoconn.create_table(name='dev-ysniff-ips',schema=table_schema_ips,read_units=4,write_units=1)
 
-sdbconn.create_domain('dev-pi-locations')

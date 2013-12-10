@@ -6,6 +6,7 @@ import fileinput
 import sys
 import re
 import datetime
+import calendar
 import time
 import ConfigParser
 import subprocess
@@ -16,7 +17,7 @@ start_t_us = 0
 start_u_us = 0
 MAC_LEN = 17
 SAMPLE_PERIOD = 2*60 # Seconds.
-PUSH_TO_AWS_PERIOD = 10*60 # Seconds.
+PUSH_TO_AWS_PERIOD = 2.5*60 # Seconds.
 maclist = set()
 buffer = {}
 
@@ -33,13 +34,19 @@ table_name = 'dev-ysniff' # TODO: Use cfg file to get table name
 try:
     print "Connecting to boto"
     conn=boto.dynamodb.connect_to_region('us-east-1',aws_access_key_id=access_key,aws_secret_access_key=secret_key)
-    print "Getting DynamoDB table"
+    print "Getting Mac DynamoDB table"
     table=conn.get_table('dev-ysniff')
+    print "Getting IP DynamoDB table"
+    ip_table=conn.get_table('dev-ysniff-ips')
 except Exception as e:
     print e
 
 print "Phoning home"
-# ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
+ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
+cur_time = calendar.timegm(time.gmtime())
+#push pi_location, ip_addr, ts_now
+#table.update_item(location) -> give it dictionary of attributes
+
 print "Reading from tcpdump"
 for line in fileinput.input():
     isbroadcast = re.search("Broadcast", line);
@@ -90,7 +97,7 @@ for line in fileinput.input():
                     item.put_attribute(timestamp,pi_location)
                 try:
                     print "Writing data to SimpleDB"
-                    con.update_item(item)
+                    conn.update_item(item)
                 except Exception as e:
                     print e
 
