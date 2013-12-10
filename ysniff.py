@@ -29,7 +29,7 @@ config.read('/etc/ysniff.cfg')
 access_key = config.get('default','AWS_ACCESS_KEY_ID')
 secret_key = config.get('default','AWS_SECRET_ACCESS_KEY')
 pi_location= config.get('default','PI_LOCATION')
-table_name = 'dev2-ysniff' # TODO: Use cfg file to get table name
+table_name = 'dev3-ysniff' # TODO: Use cfg file to get table name
 
 try:
     print "Connecting to boto"
@@ -60,9 +60,6 @@ try:
     conn.update_item(item)
 except Exception as e:
     print e
-
-
-
 
 print "Reading from tcpdump"
 for line in fileinput.input():
@@ -118,6 +115,9 @@ for line in fileinput.input():
                 except Exception as e:
                     print e
 
+            cur_time = calendar.timegm(time.gmtime())
+            item = ip_table.get_item(pi_location)
+            item.put_attribute('Last Push', cur_time)
             buffer = {}
             start_t_us = ts
 
