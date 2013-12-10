@@ -7,12 +7,6 @@ git pull # Fetch updates
 
 export LC_ALL=C
 
-eth_ip=$(ifconfig | grep inet | head -1 | cut -c21-34)
-time=$(date +%s)
-
-source /home/pi/.bashrc
-/home/pi/ysniff-software/tools/simpledb put dev-pi-locations $PI_LOCATION IP=$eth_ip LAST_PUSH=$time
-
 source /home/pi/.bashrc
 echo "Turning on wlan0"
 sudo ifconfig wlan0 up

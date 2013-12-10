@@ -8,7 +8,7 @@ import re
 import datetime
 import time
 import ConfigParser
-from subprocess import call
+import subprocess
 
 mac_index = 12
 time_index = 0
@@ -38,6 +38,7 @@ except Exception as e:
     print e
 
 print "Phoning home"
+ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=PIPE).communicate()[0]
 print "Reading from tcpdump"
 for line in fileinput.input():
     m = re.search("((?:[0-9a-f]{2}[:-]){5}[0-9a-f]{2})", line)

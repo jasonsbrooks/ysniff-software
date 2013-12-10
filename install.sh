@@ -15,14 +15,6 @@ git clone https://github.com/boto/boto.git
 cd boto
 python setup.py install
 
-# Install SimpleDB deps
-curl -Lo amazon-simpledb-perl-library.zip \
-  http://amazon-simpledb-perl-library.notlong.com
-
-unzip amazon-simpledb-perl-library.zip
-
-sudo cp -r AmazonSimpleDB-2009-04-15-perl-library/ /usr/share/perl/5.14.2/
-
 sudo cp run.sh /etc/init.d/
 sudo chmod 755 /etc/init.d/run.sh
 sudo update-rc.d run.sh defaults
