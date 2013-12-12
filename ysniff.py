@@ -31,11 +31,11 @@ pi_location= config.get('default','PI_LOCATION')
 table_name = 'prod-ysniff' # TODO: Use cfg file to get table name
 
 try:
-    print("Connecting to boto", file=logfile)
+    print >>logfile, "Connecting to boto"
     conn=boto.dynamodb.connect_to_region('us-east-1',aws_access_key_id=access_key,aws_secret_access_key=secret_key)
-    print("Getting Mac DynamoDB table", file=logfile)
+    print >>logfile, "Getting Mac DynamoDB table"
     table=conn.get_table(table_name)
-    print("Getting IP DynamoDB table", file=logfile)
+    print >>logfile, "Getting IP DynamoDB table"
     ip_table=conn.get_table('prod-ysniff-ips')
 except Exception as e:
     print(e, logfile)
