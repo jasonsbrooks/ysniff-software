@@ -79,13 +79,13 @@ for line in fileinput.input():
         if mac not in buffer:
             buffer[mac]=[]
 
+        # Update start_t_us every SAMPLE_PERIOD
+        if start_t_us is 0 or ts - start_t_us > (SAMPLE_PERIOD):
+            start_t_us = ts
         # Only pair timestamp to mac address once
         if start_t_us not in buffer[mac]:
             buffer[mac].append(start_t_us)
 
-        # Update start_t_us every SAMPLE_PERIOD
-        if start_t_us is 0 or ts - start_t_us > (SAMPLE_PERIOD):
-            start_t_us = ts
 
         # upload buffer to AWS every PUSH_TO_AWS_PERIOD
         if start_u_us is 0:
