@@ -44,6 +44,11 @@ print("Phoning home", logfile)
 ip_addr = subprocess.Popen(['/home/pi/ysniff-software/tools/getip.sh'],stdout=subprocess.PIPE).communicate()[0][:-1]
 cur_time = calendar.timegm(time.gmtime())
 
+#get rid of get_item and replace with update_item from layer 1
+# logfile stuff needs to be better (redirectr stdout and stderr to file)
+# add run.sh to etc and init.d so there is a link to the link so on git pull it has the latest stuff
+# deploy two other pies
+# film a good movie
 try:
     item = ip_table.get_item(pi_location)
 except boto.dynamodb.exceptions.DynamoDBKeyNotFoundError:

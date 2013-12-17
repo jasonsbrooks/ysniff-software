@@ -1,7 +1,7 @@
-ysniff-software
+Marauder's Map Yale - Software
 ===============
 
-Software for Raspberry Pi's for ySniff project.
+Software for Raspberry Pi's for the Yale Marauder's Map project.
 
 FILES
 * install.sh
